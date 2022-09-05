@@ -44,11 +44,12 @@
         android:title="@string/advanced_battery_preference_title"
         settings:keywords="@string/keywords_battery_usage" />
 
-    <com.power.hub.preferences.SystemSettingSwitchPreference
+    <!-- remove as it only works/shows with pe frame -->
+    <!-- <com.power.hub.preferences.SystemSettingSwitchPreference
         android:key="battery_24_hrs_stats"
         android:title="@string/advanced_battery_preference_summary_with_hours"
         settings:searchable="false"
-        android:defaultValue="true" />
+        android:defaultValue="true" /> -->
 
     <Preference
         android:fragment="com.android.settings.fuelgauge.batterysaver.BatterySaverSettings"
@@ -64,11 +65,12 @@
         settings:controller="com.android.settings.fuelgauge.batterytip.BatteryManagerPreferenceController"
         settings:keywords="@string/keywords_battery_adaptive_preferences" />
 
-    <SwitchPreference
+    <!-- doesnt do anything -->
+    <!-- <SwitchPreference
         android:key="battery_percentage"
         android:title="@string/battery_percentage"
         android:summary="@string/battery_percentage_description"
-        settings:controller="com.android.settings.display.BatteryPercentagePreferenceController" />
+        settings:controller="com.android.settings.display.BatteryPercentagePreferenceController" /> -->
 
     <Preference
         android:key="sleep_mode"
