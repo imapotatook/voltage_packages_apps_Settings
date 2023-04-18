@@ -27,7 +27,9 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.DeviceConfig;
+import android.os.ServiceManager;
+import android.os.Vibrator;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 
 import androidx.lifecycle.OnLifecycleEvent;
@@ -50,6 +52,13 @@ public class NotificationVolumePreferenceController extends
 
     private final RingReceiver mReceiver = new RingReceiver();
     private final H mHandler = new H();
+    private INotificationManager mNoMan;
+
+
+    private int mMuteIcon;
+    private final int mNormalIconId =  R.drawable.ic_notifications;
+    private final int mVibrateIconId = R.drawable.ic_volume_ringer_vibrate;
+    private final int mSilentIconId = R.drawable.ic_notifications_off_24dp;
 
     public NotificationVolumePreferenceController(Context context) {
         this(context, KEY_NOTIFICATION_VOLUME);
@@ -79,32 +88,7 @@ public class NotificationVolumePreferenceController extends
             setupVolPreference(screen);
         }
 
-        updateEffectsSuppressor();
-        selectPreferenceIconState();
-        updateEnabledState();
-    }
-
-    /**
-     * Only display the notification slider when the corresponding device config flag is set
-     */
-    private void onDeviceConfigChange(DeviceConfig.Properties properties) {
-        Set<String> changeSet = properties.getKeyset();
-
-        if (changeSet.contains(SystemUiDeviceConfigFlags.VOLUME_SEPARATE_NOTIFICATION)) {
-            boolean newVal = isSeparateNotificationConfigEnabled();
-            if (newVal != mSeparateNotification) {
-                mSeparateNotification = newVal;
-                // Update UI if config change happens when Sound Settings page is on the foreground
-                if (mPreference != null) {
-                    int status = getAvailabilityStatus();
-                    mPreference.setVisible(status == AVAILABLE
-                            || status == DISABLED_DEPENDENT_SETTING);
-                    if (status == DISABLED_DEPENDENT_SETTING) {
-                        mPreference.setEnabled(false);
-                    }
-                }
-            }
-        }
+        updateRingerMode();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -128,12 +112,22 @@ public class NotificationVolumePreferenceController extends
 
     @Override
     public int getAvailabilityStatus() {
-        boolean separateNotification = isSeparateNotificationConfigEnabled();
+        // Show separate notification slider if device is voice capable
+        // if they are, notification volume is controlled by RingVolumePreferenceController.
         return mContext.getResources().getBoolean(R.bool.config_show_notification_volume)
-                && !mHelper.isSingleVolume() && separateNotification
-                ? (mRingerMode == AudioManager.RINGER_MODE_NORMAL
-                    ? AVAILABLE : DISABLED_DEPENDENT_SETTING)
-                : UNSUPPORTED_ON_DEVICE;
+                && Utils.isVoiceCapable(mContext)
+                && !mHelper.isSingleVolume()
+                ? AVAILABLE : UNSUPPORTED_ON_DEVICE;
+    }
+
+    @Override
+    public boolean isSliceable() {
+        return TextUtils.equals(getPreferenceKey(), KEY_NOTIFICATION_VOLUME);
+    }
+
+    @Override
+    public boolean isPublicSlice() {
+        return true;
     }
 
     @Override

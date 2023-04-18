@@ -27,7 +27,9 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.DeviceConfig;
+import android.os.ServiceManager;
+import android.os.Vibrator;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 
 import androidx.lifecycle.OnLifecycleEvent;
@@ -50,14 +52,41 @@ public class RingVolumePreferenceController extends
     private final RingReceiver mReceiver = new RingReceiver();
     private final H mHandler = new H();
 
+    private int mMuteIcon;
+
+    private final int mNormalIconId;
+    @VisibleForTesting
+    final int mVibrateIconId;
+    @VisibleForTesting
+    final int mSilentIconId;
+
+    @VisibleForTesting
+    final int mTitleId;
+
+    private INotificationManager mNoMan;
+
+    private final boolean mNotifAliasRing;
+
     public RingVolumePreferenceController(Context context) {
         this(context, KEY_RING_VOLUME);
     }
 
     public RingVolumePreferenceController(Context context, String key) {
-        super(context, key, TAG);
+        super(context, key);
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+        if (mVibrator != null && !mVibrator.hasVibrator()) {
+            mVibrator = null;
+        }
 
-        mNormalIconId = R.drawable.ic_notifications;
+        mNotifAliasRing = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_alias_ring_notif_stream_types);
+
+        mTitleId = R.string.separate_ring_volume_option_title;
+
+        mNormalIconId = R.drawable.ic_volume_ringer;
+        mSilentIconId = R.drawable.ic_volume_ringer_mute;
+
+        // todo: set a distinct vibrate icon for ring vs notification
         mVibrateIconId = R.drawable.ic_volume_ringer_vibrate;
         mSilentIconId = R.drawable.ic_notifications_off_24dp;
 
@@ -65,18 +94,15 @@ public class RingVolumePreferenceController extends
         updateRingerMode();
     }
 
-    /**
-     * As the responsibility of this slider changes, so should its title & icon
+    /*
+     * Whether ring and notification streams are aliased together by AudioManager.
+     * If they are, we'll present one volume control for both.
+     * If not, we'll present separate volume controls.
      */
-    private void onDeviceConfigChange(DeviceConfig.Properties properties) {
-        Set<String> changeSet = properties.getKeyset();
-        if (changeSet.contains(SystemUiDeviceConfigFlags.VOLUME_SEPARATE_NOTIFICATION)) {
-            boolean valueUpdated = readSeparateNotificationVolumeConfig();
-            if (valueUpdated) {
-                updateEffectsSuppressor();
-                selectPreferenceIconState();
-            }
-        }
+    @VisibleForTesting
+    boolean isRingAliasNotification() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.VOLUME_LINK_NOTIFICATION, mNotifAliasRing ? 1 : 0) == 1;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -123,8 +149,46 @@ public class RingVolumePreferenceController extends
     }
 
     @Override
-    protected boolean hintsMatch(int hints) {
-        boolean notificationSeparated = isSeparateNotificationConfigEnabled();
+    public int getMuteIcon() {
+        return mMuteIcon;
+    }
+
+    @VisibleForTesting
+    void updateRingerMode() {
+        final int ringerMode = mHelper.getRingerModeInternal();
+        if (mRingerMode == ringerMode) return;
+        mRingerMode = ringerMode;
+        updatePreferenceIcon();
+    }
+
+    private void updateEffectsSuppressor() {
+        final ComponentName suppressor = NotificationManager.from(mContext).getEffectsSuppressor();
+        if (Objects.equals(suppressor, mSuppressor)) return;
+
+        if (mNoMan == null) {
+            mNoMan = INotificationManager.Stub.asInterface(
+                    ServiceManager.getService(Context.NOTIFICATION_SERVICE));
+        }
+
+        final int hints;
+        try {
+            hints = mNoMan.getHintsFromListenerNoToken();
+        } catch (android.os.RemoteException ex) {
+            Log.w(TAG, "updateEffectsSuppressor: " + ex.getMessage());
+            return;
+        }
+
+        if (hintsMatch(hints, isRingAliasNotification())) {
+            mSuppressor = suppressor;
+            if (mPreference != null) {
+                final String text = SuppressorHelper.getSuppressionText(mContext, suppressor);
+                mPreference.setSuppressionText(text);
+            }
+        }
+    }
+
+    @VisibleForTesting
+    boolean hintsMatch(int hints, boolean ringNotificationAliased) {
         return (hints & NotificationListenerService.HINT_HOST_DISABLE_CALL_EFFECTS) != 0
                 || (hints & NotificationListenerService.HINT_HOST_DISABLE_EFFECTS) != 0
                 || ((hints & NotificationListenerService.HINT_HOST_DISABLE_NOTIFICATION_EFFECTS)
