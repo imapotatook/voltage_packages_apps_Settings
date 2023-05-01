@@ -81,7 +81,7 @@ public class RingVolumePreferenceController extends
         mNotifAliasRing = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_alias_ring_notif_stream_types);
 
-        mTitleId = R.string.separate_ring_volume_option_title;
+            mTitleId = R.string.separate_ring_volume_option_title;
 
         mNormalIconId = R.drawable.ic_volume_ringer;
         mSilentIconId = R.drawable.ic_volume_ringer_mute;
