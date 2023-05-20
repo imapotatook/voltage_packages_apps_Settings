@@ -17,43 +17,43 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
-    android:title="@string/sound_settings"
     android:key="sound_settings"
+    android:title="@string/sound_settings"
     settings:keywords="@string/keywords_sounds">
 
     <!-- Remote volume group -->
     <PreferenceCategory
         android:key="remote_media_group"
-        android:title=""
         android:order="-185"
+        android:title=""
         settings:allowDividerBelow="true"
         settings:controller="com.android.settings.notification.RemoteVolumeGroupController">
     </PreferenceCategory>
 
     <!-- Media volume -->
     <com.android.settings.notification.VolumeSeekBarPreference
-        android:key="media_volume"
         android:icon="@drawable/ic_media_stream"
-        android:title="@string/media_volume_option_title"
+        android:key="media_volume"
         android:order="-180"
+        android:title="@string/media_volume_option_title"
         settings:controller="com.android.settings.notification.MediaVolumePreferenceController"/>
 
     <!-- Media output switcher -->
     <Preference
+        android:dialogTitle="@string/media_output_title"
         android:key="media_output"
         android:icon="@drawable/ic_app_volume"
-        android:title="@string/media_output_title"
-        android:dialogTitle="@string/media_output_title"
         android:order="-175"
+        android:title="@string/media_output_title"
         settings:searchable="false"
         settings:controller="com.android.settings.sound.MediaOutputPreferenceController"/>
 
     <!-- Call volume -->
     <com.android.settings.notification.VolumeSeekBarPreference
-        android:key="call_volume"
         android:icon="@drawable/ic_local_phone_24_lib"
-        android:title="@string/call_volume_option_title"
+        android:key="call_volume"
         android:order="-170"
+        android:title="@string/call_volume_option_title"
         settings:controller="com.android.settings.notification.CallVolumePreferenceController"/>
 
     <!-- Hands free profile output switcher -->
@@ -87,8 +87,7 @@
         android:icon="@drawable/ic_notifications"
         android:title="@string/notification_volume_option_title"
         android:order="-150"
-        settings:controller="com.android.settings.notification.NotificationVolumePreferenceController"
-        settings:unavailableSliceSubtitle="@string/notification_volume_disabled_summary"/>
+        settings:controller="com.android.settings.notification.NotificationVolumePreferenceController"/>
 
     <!-- Alarm volume -->
     <com.android.settings.notification.VolumeSeekBarPreference

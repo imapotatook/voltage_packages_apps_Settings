@@ -848,7 +848,7 @@
     <!-- Introduction detail message shown in face education [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_education_message"></string>
     <!-- Introduction detail message shown in face education for accessibility [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_education_message_accessibility" product="default"></string>
+    <string name="security_settings_face_enroll_education_message_accessibility" product="default">On the next screen, rotate your head to capture all angles of your face</string>
     <!-- Introduction detail message shown in face education for accessibility [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_education_message_accessibility" product="tablet"></string>
     <!-- Introduction detail message shown in face education for accessibility [CHAR LIMIT=NONE] -->
@@ -872,7 +872,7 @@
     <!-- Message shown for a toggle which when enabled, allows the user to enroll using a simpler flow for accessibility [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_accessibility_diversity"></string>
     <!-- Message shown for a toggle which when enabled, allows the user to enroll using a simpler flow for accessibility [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_introduction_accessibility_vision"></string>
+    <string name="security_settings_face_enroll_introduction_accessibility_vision">Require eyes open</string>
     <!-- Button text to cancel enrollment from the introduction [CHAR LIMIT=22] -->
     <string name="security_settings_face_enroll_introduction_cancel">Cancel</string>
     <!-- Button text to cancel enrollment [CHAR LIMIT=30] -->
@@ -910,11 +910,11 @@
     <!-- Introduction detail message shown in face enrollment screen in setup wizard. [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_message_setup">Use your face to unlock your phone, authorize purchases, or sign in to apps</string>
     <!-- Title of a section on the face enrollment introduction page that provides additional information. [CHAR LIMIT=40] -->
-    <string name="security_settings_face_enroll_introduction_info_title"></string>
+    <string name="security_settings_face_enroll_introduction_info_title">Keep in mind</string>
     <!-- Message on the face enrollment introduction page that provides information about glasses. [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_introduction_info_glasses"></string>
+    <string name="security_settings_face_enroll_introduction_info_glasses">Glasses or lightly tinted sunglasses are OK.</string>
     <!-- Message on the face enrollment introduction page that provides information about glasses when asking for parental consent. [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_introduction_info_consent_glasses"></string>
+    <string name="security_settings_face_enroll_introduction_info_consent_glasses">If your child normally wears eyeglasses, they can wear them during setup.</string>
     <!-- Message on the face enrollment introduction page that provides information about what could cause the phone to unlock. [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_info_looking" product="default"></string>
     <!-- Message on the face enrollment introduction page that provides information about what could cause the phone to unlock. [CHAR LIMIT=NONE] -->
@@ -953,7 +953,7 @@
     <string name="security_settings_face_enroll_introduction_info_consent_gaze" product="device"></string>
 
     <!-- Title of a section on the face enrollment introduction page that explains how face unlock works. [CHAR LIMIT=40] -->
-    <string name="security_settings_face_enroll_introduction_how_title"></string>
+    <string name="security_settings_face_enroll_introduction_how_title">How it works</string>
     <!-- Message on the face enrollment introduction page that explains how face unlock works. [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_how_message" product="default"></string>
     <!-- Message on the face enrollment introduction page that explains how face unlock works. [CHAR LIMIT=NONE] -->
@@ -967,9 +967,9 @@
     <!-- Message on the face enrollment introduction page that explains how Face Unlock works when asking for parental consent. [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_how_consent_message" product="device"></string>
     <!-- Title of a section on the face enrollment introduction page that explains privacy controls for face unlock. [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_introduction_control_title"></string>
+    <string name="security_settings_face_enroll_introduction_control_title">You’re in control</string>
     <!-- Title of a section on the face enrollment introduction page that explains privacy controls for face unlock when asking for parental consent. [CHAR LIMIT=NONE] -->
-    <string name="security_settings_face_enroll_introduction_control_consent_title"></string>
+    <string name="security_settings_face_enroll_introduction_control_consent_title">You and your child are in control</string>
     <!-- Message on the face enrollment introduction page that explains privacy controls for face unlock [CHAR LIMIT=NONE] -->
     <string name="security_settings_face_enroll_introduction_control_message" product="default"></string>
     <!-- Message on the face enrollment introduction page that explains privacy controls for face unlock [CHAR LIMIT=NONE] -->
@@ -14632,4 +14632,21 @@
     <!-- Force LTE_CA -->
     <string name="force_lte_ca">Force LTE CA</string>
     <string name="force_lte_ca_summary">Force LTE carrier aggregation to work</string>
+
+    <!-- Face Unlock -->
+    <string name="security_settings_face_enroll_error_timeout_dialog_title">Face Unlock setup timed out</string>
+    <string name="security_settings_face_enroll_finish_description">Now you can use your face to unlock your phone or verify it’s you, like when you sign in to apps or approve a purchase</string>
+    <string name="security_settings_face_enroll_next">Next</string>
+    <string name="security_settings_face_enroll_partial_message">To improve performance, you can set up Face Unlock again in Settings</string>
+    <string name="security_settings_face_enroll_partial_start_over">Start over</string>
+    <string name="security_settings_face_enroll_partial_title">Face Unlock setup finished</string>
+    <string name="security_settings_face_enroll_timeout_message">Try fast setup instead. Keep in mind, your head may need to be more directly in front of your phone when using Face Unlock.\n\nTo improve performance, you can set up Face Unlock again in Settings.</string>
+    <string name="security_settings_face_enroll_timeout_title">Can’t continue setup</string>
+    <string name="security_settings_face_enroll_timeout_try_again">Try again</string>
+    <string name="security_settings_face_enroll_timeout_use_fast_setup">Use fast setup</string>
+    <string name="security_settings_face_enroll_too_hot_exit_setup">Exit setup</string>
+    <string name="security_settings_face_enroll_too_hot_message">Face Unlock setup can’t be completed because the phone is too hot. Try again later when the phone cools down.</string>
+    <string name="security_settings_face_enroll_too_hot_skip_face_unlock">Skip Face Unlock</string>
+    <string name="security_settings_face_enroll_too_hot_title">Phone is too hot</string>
+    
 </resources>
