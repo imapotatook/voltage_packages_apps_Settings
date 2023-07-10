@@ -84,12 +84,9 @@ public class WifiTetherSettings extends RestrictedDashboardFragment
     private WifiTetherPasswordPreferenceController mPasswordPreferenceController;
     private WifiTetherSecurityPreferenceController mSecurityPreferenceController;
     private WifiTetherHiddenSsidPreferenceController mHiddenSsidPrefController;
-<<<<<<< HEAD
     private WifiTetherAutoOffPreferenceController mAutoOffPrefController;
     private WifiTetherClientManagerPreferenceController mClientPrefController;
-=======
     private WifiTetherApBandPreferenceController mApBandPrefController;
->>>>>>> 504b9761f3 (SoftAp: add back AP Band preference into tether settings)
 
     private WifiManager mWifiManager;
     private boolean mRestartWifiApAfterConfigChange;
@@ -257,15 +254,10 @@ public class WifiTetherSettings extends RestrictedDashboardFragment
                     mPasswordPreferenceController.getPasswordValidated(securityType),
                     securityType);
         }
-<<<<<<< HEAD
-        mMaxCompatibilityPrefController.setupMaximizeCompatibility(configBuilder);
         configBuilder.setHiddenSsid(mHiddenSsidPrefController.isHiddenSsidEnabled());
         mAutoOffPrefController.updateConfig(configBuilder);
         mClientPrefController.updateConfig(configBuilder);
-=======
-        configBuilder.setHiddenSsid(mHiddenSsidPrefController.isHiddenSsidEnabled());
         mApBandPrefController.setupBands(configBuilder);
->>>>>>> 504b9761f3 (SoftAp: add back AP Band preference into tether settings)
         return configBuilder.build();
     }
 
@@ -289,17 +281,7 @@ public class WifiTetherSettings extends RestrictedDashboardFragment
     @VisibleForTesting
     static class SearchIndexProvider extends BaseSearchIndexProvider {
 
-<<<<<<< HEAD
         private final WifiRestriction mWifiRestriction;
-=======
-                    if (!TetherUtil.isTetherAvailable(context)) {
-                        keys.add(KEY_WIFI_TETHER_NETWORK_NAME);
-                        keys.add(KEY_WIFI_TETHER_NETWORK_PASSWORD);
-                        keys.add(KEY_WIFI_TETHER_AUTO_OFF);
-                        keys.add(KEY_WIFI_TETHER_AP_BAND);
-                        keys.add(KEY_WIFI_TETHER_HIDDEN_SSID);
-                    }
->>>>>>> 504b9761f3 (SoftAp: add back AP Band preference into tether settings)
 
         SearchIndexProvider(int xmlRes) {
             super(xmlRes);
@@ -322,7 +304,7 @@ public class WifiTetherSettings extends RestrictedDashboardFragment
                 keys.add(KEY_WIFI_TETHER_SECURITY);
                 keys.add(KEY_WIFI_TETHER_NETWORK_PASSWORD);
                 keys.add(KEY_WIFI_TETHER_AUTO_OFF);
-                keys.add(KEY_WIFI_TETHER_MAXIMIZE_COMPATIBILITY);
+                keys.add(KEY_WIFI_TETHER_AP_BAND);
                 keys.add(KEY_WIFI_TETHER_HIDDEN_SSID);
                 keys.add(KEY_WIFI_TETHER_CLIENT_MANAGER);
             }
