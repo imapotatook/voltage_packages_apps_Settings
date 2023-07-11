@@ -28,9 +28,7 @@ import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.UserHandle;
 import android.provider.SearchIndexableResource;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,7 +98,7 @@ public class PowerUsageAdvanced extends PowerUsageBase {
         if (mIsChartGraphEnabled) {
             setBatteryChartPreferenceController();
         } else {
-        updateHistPrefSummary(context);
+            updateHistPrefSummary(context);
         }
     }
 
@@ -263,9 +261,8 @@ public class PowerUsageAdvanced extends PowerUsageBase {
         if (mPowerUsageFeatureProvider == null) {
             mPowerUsageFeatureProvider = FeatureFactory.getFactory(context)
                     .getPowerUsageFeatureProvider(context);
+            mIsChartGraphEnabled = mPowerUsageFeatureProvider.isChartGraphEnabled(context);
         }
-        mIsChartGraphEnabled = Settings.System.getIntForUser(context.getContentResolver(),
-            "battery_24_hrs_stats", 0, UserHandle.USER_CURRENT) != 0;
     }
 
     private void setBatteryChartPreferenceController() {
